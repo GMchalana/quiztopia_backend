@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "predeploy": "ng build --base-href /<quiztopia_backend>/", 
+    "deploy": "gh-pages -d dist/<quiztopia_backend>"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "nodemon": "^3.1.9"
   }
 }
