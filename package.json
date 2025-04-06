@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "predeploy": "ng build --base-href /<quiztopia_backend>/",
-    "deploy": "gh-pages -d dist/<quiztopia_backend>"
+    "deploy": "gh-pages -d dist/<quiztopia_backend>",
+    "seed": "node seed/Seed.js"
   },
   "keywords": [],
   "author": "",
@@ -14,9 +15,11 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.0"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
