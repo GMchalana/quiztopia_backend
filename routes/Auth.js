@@ -16,6 +16,8 @@ router.post(
   );
 
 
+  router.post("/login", AuthEP.login);
+
 
 
 
