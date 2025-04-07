@@ -10,23 +10,17 @@ exports.createPlantCareUser = async (req, res) => {
     try {
 
       const {
-        firstName,
-        lastName,
-        phoneNumber,
         email,
-        userName,
-        role
+        password,
+        role,
+        userName
       } = req.body;
 
-
-  
       const userData = {
-        firstName,
-        lastName,
-        phoneNumber,
         email,
         userName,
-        role
+        role,
+        password
       };
   
       console.log('User inserting data :',userData);
@@ -44,8 +38,6 @@ exports.createPlantCareUser = async (req, res) => {
         // Handle validation error for duplicate phoneNumber or NICnumber
         return res.status(400).json({ error: error.message });
       }
-  
- 
   
       console.error("Error creating PlantCare user:", error);
       return res

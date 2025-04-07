@@ -6,12 +6,12 @@ const db = require("../startup/database");
   exports.createPlantCareUser = (userData) => {
     return new Promise((resolve, reject) => {
       const {
-        firstName,
-        lastName,
-        phoneNumber,
         email,
-        userName,
-        role
+        password,
+        role,
+        userName
+
+
       } = userData;
 
       console.log('in dao', userData);
@@ -47,9 +47,9 @@ const db = require("../startup/database");
               }
               console.log('Hit 03'); 
               connection.query(
-                `INSERT INTO users (firstName, lastName, phoneNumber, email, userName, role)
-                 VALUES (?, ?, ?, ?, ?, ?)`,
-                [firstName, lastName, phoneNumber, email, userName, role],
+                `INSERT INTO users (email, userName, role, password)
+                 VALUES (?, ?, ?, ?)`,
+                [email, userName, role, password],
                 (insertUserErr, insertUserResults) => {
                   if (insertUserErr) {
                     return connection.rollback(() => {
