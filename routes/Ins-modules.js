@@ -12,6 +12,18 @@ router.get(
 );
 
 
+router.post(
+    '/quizzes', 
+    modulesEP.createQuiz
+);
+
+
+router.get(
+    '/questions/:moduleId', 
+    modulesEP.getQuizQuestions
+);
+
+
 
 
 
