@@ -113,3 +113,20 @@ exports.createModule = (moduleName, numOfQuestions, estimationTime) => {
     });
   };
   
+
+
+
+
+  exports.deleteModuleById = (moduleId) => {
+    return new Promise((resolve, reject) => {
+      const sql = `DELETE FROM module WHERE id = ?`;
+      db.query(sql, [moduleId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+  

@@ -24,6 +24,13 @@ router.get(
 );
 
 
+router.delete(
+    '/delete-module/:moduleId', 
+    modulesEP.deleteModule
+);
+
+
+
 
 
 

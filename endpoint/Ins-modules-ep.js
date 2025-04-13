@@ -71,3 +71,19 @@ exports.createQuiz = async (req, res) => {
     }
   };
   
+
+
+
+
+  exports.deleteModule = async (req, res) => {
+    const { moduleId } = req.params;
+  
+    try {
+      const result = await modulesDao.deleteModuleById(moduleId);
+      res.status(200).json({ message: 'Module deleted successfully ✅', result });
+    } catch (error) {
+      console.error('Error deleting module ❌:', error);
+      res.status(500).json({ error: 'Failed to delete module' });
+    }
+  };
+  
