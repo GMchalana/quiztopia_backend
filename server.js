@@ -5,6 +5,8 @@ const heathRoutes = require('./routes/healthRoutes')
 const cors = require('cors');
 const  db = require('./startup/database');
 const authRoutes = require('./routes/Auth');
+const modulesRoutes = require('./routes/Ins-modules');
+
 const bodyParser = require('body-parser');
 // const users = require('./users');
 
@@ -31,6 +33,7 @@ db.getConnection((err, connection) => {
 app.use("", heathRoutes);
 
 app.use('/api/auth', authRoutes);
+app.use('/api/modules', modulesRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
