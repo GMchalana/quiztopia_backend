@@ -86,4 +86,18 @@ exports.createQuiz = async (req, res) => {
       res.status(500).json({ error: 'Failed to delete module' });
     }
   };
+
+
+
+  exports.storeManualGradedQuestions = async (req, res) => {
+    const { moduleName, timeEstimate, questions } = req.body;
+  
+    try {
+        const response = await modulesDao.storeManualGradedQuestions( moduleName, timeEstimate, questions);
+        res.status(200).json({ message: 'Manual graded questions saved successfully ✅', moduleId: response });
+      } catch (error) {
+        console.error('Error saving manual graded questions:', error);
+        res.status(500).json({ error: 'Failed to save manual graded questions ❌' });
+      }
+  };
   

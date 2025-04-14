@@ -130,3 +130,41 @@ exports.createModule = (moduleName, numOfQuestions, estimationTime) => {
     });
   };
   
+
+
+
+  exports.storeManualGradedQuestions = async (moduleName, timeEstimate, questions) => {
+    
+  
+    return new Promise((resolve, reject) => {
+      // Step 1: Insert module
+      const insertModuleSql = `
+        INSERT INTO module (moduleName, numOfQuestions, estimationTime, deleteStatus)
+        VALUES (?, ?, ?, 0)
+      `;
+  
+      db.query(insertModuleSql, [moduleName, questions.length, timeEstimate], (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+  
+        const moduleId = result.insertId;
+  
+        // Step 2: Insert manual graded questions
+        const questionValues = questions.map((q, index) => [moduleId, index + 1, q.question, q.sampleAnswer]);
+  
+        const insertQuestionsSql = `
+          INSERT INTO manualgradedquestions (moduleId, questionIndex, question, sampleAnswer)
+          VALUES ?
+        `;
+  
+        db.query(insertQuestionsSql, [questionValues], (err2) => {
+          if (err2) {
+            return reject(err2);
+          }
+  
+          resolve(moduleId);
+        });
+      });
+    });
+  };

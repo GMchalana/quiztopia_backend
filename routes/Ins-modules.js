@@ -29,6 +29,10 @@ router.delete(
     modulesEP.deleteModule
 );
 
+router.post(
+    '/store-manual-questions', 
+    modulesEP.storeManualGradedQuestions
+);
 
 
 

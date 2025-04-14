@@ -133,10 +133,39 @@ const createTfQuestionsTable = () => {
 
 
 
+const createManualGradedQuestionsTable = () => {
+    const sql = `
+    CREATE TABLE IF NOT EXISTS manualgradedquestions (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      moduleId INT DEFAULT NULL,
+      questionIndex INT DEFAULT NULL,
+      question TEXT,
+      sampleAnswer TEXT,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (moduleId) REFERENCES module(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    )
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating manualgradedquestions table: ' + err);
+            } else {
+                resolve('manualgradedquestions table created successfully. ✅');
+            }
+        });
+    });
+};
+
+
+
+
 module.exports = {
     createUsersTable,
     createModuleTable,
     createMcQuestionsTable,
     createMcqAnswersTable,
-    createTfQuestionsTable
+    createTfQuestionsTable,
+    createManualGradedQuestionsTable
 };
