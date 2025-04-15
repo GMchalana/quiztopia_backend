@@ -159,6 +159,34 @@ const createManualGradedQuestionsTable = () => {
 };
 
 
+const createModuleRatingsTable = () => {
+    const sql = `
+    CREATE TABLE IF NOT EXISTS moduleratings (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      moduleId INT DEFAULT NULL,
+      userId INT DEFAULT NULL,
+      numOfStars INT DEFAULT NULL,
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (moduleId) REFERENCES module(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+      FOREIGN KEY (userId) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    )
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating manualgradedquestions table: ' + err);
+            } else {
+                resolve('manualgradedquestions table created successfully. ✅');
+            }
+        });
+    });
+};
+
+
 
 
 module.exports = {
@@ -167,5 +195,6 @@ module.exports = {
     createMcQuestionsTable,
     createMcqAnswersTable,
     createTfQuestionsTable,
-    createManualGradedQuestionsTable
+    createManualGradedQuestionsTable,
+    createModuleRatingsTable
 };

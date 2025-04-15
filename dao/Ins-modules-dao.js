@@ -2,17 +2,27 @@ const db = require("../startup/database");
 
 
 exports.getAllModules = (email) => {
-    return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM module WHERE deleteStatus = 0";
-      db.query(sql, [email], (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(results);
-        }
-      });
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT 
+        m.*, 
+        AVG(r.numOfStars) AS averageRating
+      FROM module m
+      LEFT JOIN moduleratings r ON m.id = r.moduleId
+      WHERE m.deleteStatus = 0
+      GROUP BY m.id
+    `;
+
+    db.query(sql, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
     });
-  };
+  });
+};
+
 
 
 
