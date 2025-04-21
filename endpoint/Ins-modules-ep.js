@@ -100,4 +100,61 @@ exports.createQuiz = async (req, res) => {
         res.status(500).json({ error: 'Failed to save manual graded questions ❌' });
       }
   };
+
+
+
+
+
+
+
+
+
+
+
+  // controllers/moduleController.js
+  const db = require("../startup/database");
+
+exports.createManualGradedModule = async (req, res) => {
+  const { moduleName, timeEstimate, questions } = req.body;
+  
+  try {
+    // Start transaction
+    await db.beginTransaction();
+
+    // 1. Create the module
+    const [moduleResult] = await db.query(
+      'INSERT INTO module (moduleName, numOfQuestions, estimationTime, deleteStatus) VALUES (?, ?, ?, ?)',
+      [moduleName, questions.length, timeEstimate, false]
+    );
+    
+    const moduleId = moduleResult.insertId;
+
+    // 2. Create the questions
+    for (let i = 0; i < questions.length; i++) {
+      const { question, sampleAnswer } = questions[i];
+      await db.query(
+        'INSERT INTO manualgradedquestions (moduleId, questionIndex, question, sampleAnswer) VALUES (?, ?, ?, ?)',
+        [moduleId, i + 1, question, sampleAnswer]
+      );
+    }
+
+    // Commit transaction
+    await db.commit();
+
+    res.status(201).json({
+      success: true,
+      message: 'Manual graded module created successfully',
+      moduleId
+    });
+  } catch (error) {
+    // Rollback transaction if error occurs
+    await db.rollback();
+    console.error('Error creating manual graded module:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create manual graded module',
+      error: error.message
+    });
+  }
+};
   

@@ -35,6 +35,7 @@ const createModuleTable = () => {
       moduleName VARCHAR(50) DEFAULT NULL,
       numOfQuestions INT(5) DEFAULT NULL,
       estimationTime DECIMAL(15, 2) DEFAULT NULL,
+      manualOrAuto VARCHAR(50) DEFAULT NULL,
       deleteStatus BOOLEAN DEFAULT NULL,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )

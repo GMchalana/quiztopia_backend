@@ -149,8 +149,8 @@ exports.createModule = (moduleName, numOfQuestions, estimationTime) => {
     return new Promise((resolve, reject) => {
       // Step 1: Insert module
       const insertModuleSql = `
-        INSERT INTO module (moduleName, numOfQuestions, estimationTime, deleteStatus)
-        VALUES (?, ?, ?, 0)
+        INSERT INTO module (moduleName, numOfQuestions, estimationTime, deleteStatus, manualOrAuto)
+        VALUES (?, ?, ?, 0, 'manual')
       `;
   
       db.query(insertModuleSql, [moduleName, questions.length, timeEstimate], (err, result) => {
