@@ -189,6 +189,61 @@ const createModuleRatingsTable = () => {
 
 
 
+const createStudentAnswerTable = () => {
+    const sql = `
+    CREATE TABLE student_answers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        moduleId INT NOT NULL,
+        questionId INT NOT NULL,
+        attemptId NOT NULL,
+        selectedAnswerIndex INT NOT NULL, 
+        submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users(id),
+        FOREIGN KEY (moduleId) REFERENCES module(id),
+        FOREIGN KEY (questionId) REFERENCES mcquestions(id),
+        FOREIGN KEY (attemptId) REFERENCES quizattempt(id)
+);
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating student_answers table: ' + err);
+            } else {
+                resolve('student_answers table created successfully. ✅');
+            }
+        });
+    });
+};
+
+
+
+const createQuizattemptTable = () => {
+    const sql = `
+        CREATE TABLE quizattempt (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        moduleId INT NOT NULL,
+        userAttemptNumber INT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users(id),
+        FOREIGN KEY (moduleId) REFERENCES module(id)
+        )
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating quizattempt table: ' + err);
+            } else {
+                resolve('quizattempt table created successfully. ✅');
+            }
+        });
+    });
+};
+
+
+
+
 
 module.exports = {
     createUsersTable,
@@ -197,5 +252,7 @@ module.exports = {
     createMcqAnswersTable,
     createTfQuestionsTable,
     createManualGradedQuestionsTable,
-    createModuleRatingsTable
+    createModuleRatingsTable,
+    createStudentAnswerTable,
+    createQuizattemptTable
 };
