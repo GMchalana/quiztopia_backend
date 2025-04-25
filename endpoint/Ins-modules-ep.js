@@ -52,19 +52,53 @@ exports.createQuiz = async (req, res) => {
 
 
 
+  // exports.getQuizQuestions = async (req, res) => {
+  //   const { moduleId, type } = req.params;
+  
+  //   try {
+  //     const mcQuestions = await modulesDao.getMcQuestionsByModuleId(moduleId);
+      
+  
+  //     // Combine and sort by questionIndex
+  //     const allQuestions = [...mcQuestions].sort(
+  //       (a, b) => a.questionIndex - b.questionIndex
+  //     );
+  
+  //     res.status(200).json({ moduleId, questions: allQuestions });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: 'Failed to fetch quiz questions ❌' });
+  //   }
+  // };
+
+
   exports.getQuizQuestions = async (req, res) => {
-    const { moduleId } = req.params;
-  
+    const { moduleId, type } = req.params;
+    
     try {
-      const mcQuestions = await modulesDao.getMcQuestionsByModuleId(moduleId);
-      const tfQuestions = await modulesDao.getTfQuestionsByModuleId(moduleId);
-  
-      // Combine and sort by questionIndex
-      const allQuestions = [...mcQuestions, ...tfQuestions].sort(
-        (a, b) => a.questionIndex - b.questionIndex
-      );
-  
-      res.status(200).json({ moduleId, questions: allQuestions });
+      let questions = [];
+      
+      // Get questions based on the type parameter
+      if (type === 'auto') {
+        const mcQuestions = await modulesDao.getMcQuestionsByModuleId(moduleId);
+
+        questions = [...mcQuestions];
+      } 
+      else if (type === 'manual') {
+        questions = await modulesDao.getManualGradedQuestionsByModuleId(moduleId);
+      }
+      // else {
+      //   // If no type specified or 'all', get both types
+      //   const mcQuestions = await modulesDao.getMcQuestionsByModuleId(moduleId);
+      //   const tfQuestions = await modulesDao.getTfQuestionsByModuleId(moduleId);
+      //   const manualQuestions = await modulesDao.getManualGradedQuestionsByModuleId(moduleId);
+      //   questions = [...mcQuestions, ...tfQuestions, ...manualQuestions];
+      // }
+      
+      // Sort all questions by questionIndex
+      const sortedQuestions = questions.sort((a, b) => a.questionIndex - b.questionIndex);
+      
+      res.status(200).json({ moduleId, questions: sortedQuestions });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to fetch quiz questions ❌' });

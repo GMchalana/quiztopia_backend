@@ -99,6 +99,26 @@ exports.createModule = (moduleName, numOfQuestions, estimationTime) => {
       });
     });
   };
+
+
+  exports.getManualGradedQuestionsByModuleId = (moduleId) => {
+    return new Promise((resolve, reject) => {
+      const sql = `
+        SELECT 
+          id, 
+          questionIndex, 
+          question, 
+          sampleAnswer,
+          'manual-graded' AS type
+        FROM manualgradedquestions
+        WHERE moduleId = ?
+      `;
+      db.query(sql, [moduleId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+  };
   
   exports.getTfQuestionsByModuleId = (moduleId) => {
     return new Promise((resolve, reject) => {

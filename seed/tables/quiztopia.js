@@ -196,7 +196,7 @@ const createStudentAnswerTable = () => {
         userId INT NOT NULL,
         moduleId INT NOT NULL,
         questionId INT NOT NULL,
-        attemptId NOT NULL,
+        attemptId INT NOT NULL,
         selectedAnswerIndex INT NOT NULL, 
         submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (userId) REFERENCES users(id),
@@ -240,6 +240,44 @@ const createQuizattemptTable = () => {
         });
     });
 };
+
+
+
+
+
+
+const createManualAnswerTable = () => {
+    const sql = `
+    CREATE TABLE manual_answers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        moduleId INT NOT NULL,
+        questionId INT NOT NULL,
+        attemptId INT NOT NULL,
+        answer TEXT DEFAULT NULL, 
+        trueOrFalse BOOLEAN DEFAULT NULL, 
+        submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users(id),
+        FOREIGN KEY (moduleId) REFERENCES module(id),
+        FOREIGN KEY (questionId) REFERENCES manualgradedquestions(id),
+        FOREIGN KEY (attemptId) REFERENCES quizattempt(id)
+)
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating manual_answers table: ' + err);
+            } else {
+                resolve('manual_answers table created successfully. ✅');
+            }
+        });
+    });
+};
+
+
+
+
+
 
 
 

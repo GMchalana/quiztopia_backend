@@ -20,7 +20,7 @@ router.post(
 
 
 router.get(
-    '/questions/:moduleId', 
+    '/questions/:moduleId/:type', 
     modulesEP.getQuizQuestions
 );
 
