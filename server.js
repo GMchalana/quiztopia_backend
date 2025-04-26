@@ -7,6 +7,7 @@ const  db = require('./startup/database');
 const authRoutes = require('./routes/Auth');
 const modulesRoutes = require('./routes/Ins-modules');
 const stAnswersRoutes = require('./routes/StAnswers');
+const reviewIns = require('./routes/AnswerReview');
 
 const bodyParser = require('body-parser');
 // const users = require('./users');
@@ -36,6 +37,7 @@ app.use("", heathRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/answers', stAnswersRoutes);
+app.use('/api/review', reviewIns);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
