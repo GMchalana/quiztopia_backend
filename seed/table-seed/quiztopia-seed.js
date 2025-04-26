@@ -7,6 +7,7 @@ const { createManualGradedQuestionsTable } = require('../tables/quiztopia');
 const { createModuleRatingsTable } = require('../tables/quiztopia');
 const { createStudentAnswerTable } = require('../tables/quiztopia');
 const { createQuizattemptTable } = require('../tables/quiztopia');
+const { createManualAnswerTable } = require('../tables/quiztopia');
 
 
 
@@ -33,11 +34,16 @@ const seedQuiztopia = async () => {
       const messagecreateModuleRatingsTable = await createModuleRatingsTable();
       console.log(messagecreateModuleRatingsTable);
 
-      const messagecreateStudentAnswerTable = await createStudentAnswerTable();
-      console.log(messagecreateManualGradedQuestionsTable);
-
       const messagecreateQuizattemptTable = await createQuizattemptTable();
       console.log(messagecreateQuizattemptTable);
+
+      const messagecreateStudentAnswerTable = await createStudentAnswerTable();
+      console.log(messagecreateStudentAnswerTable);
+
+      
+
+      const messagecreateManualAnswerTable = await createManualAnswerTable();
+      console.log(messagecreateManualAnswerTable);
   
   
       

@@ -12,6 +12,7 @@ const createUsersTable = () => {
       email VARCHAR(150) DEFAULT NULL,
       userName VARCHAR(50) DEFAULT NULL,
       role VARCHAR(25) DEFAULT NULL,
+      password TEXT DEFAULT NULL,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `;
@@ -181,12 +182,34 @@ const createModuleRatingsTable = () => {
             if (err) {
                 reject('Error creating manualgradedquestions table: ' + err);
             } else {
-                resolve('manualgradedquestions table created successfully. ✅');
+                resolve('moduleratings table created successfully. ✅');
             }
         });
     });
 };
 
+const createQuizattemptTable = () => {
+    const sql = `
+        CREATE TABLE quizattempt (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        moduleId INT NOT NULL,
+        userAttemptNumber INT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (userId) REFERENCES users(id),
+        FOREIGN KEY (moduleId) REFERENCES module(id)
+        )
+  `;
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) {
+                reject('Error creating quizattempt table: ' + err);
+            } else {
+                resolve('quizattempt table created successfully. ✅');
+            }
+        });
+    });
+};
 
 
 const createStudentAnswerTable = () => {
@@ -218,28 +241,7 @@ const createStudentAnswerTable = () => {
 
 
 
-const createQuizattemptTable = () => {
-    const sql = `
-        CREATE TABLE quizattempt (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        userId INT NOT NULL,
-        moduleId INT NOT NULL,
-        userAttemptNumber INT NOT NULL,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (userId) REFERENCES users(id),
-        FOREIGN KEY (moduleId) REFERENCES module(id)
-        )
-  `;
-    return new Promise((resolve, reject) => {
-        db.query(sql, (err, result) => {
-            if (err) {
-                reject('Error creating quizattempt table: ' + err);
-            } else {
-                resolve('quizattempt table created successfully. ✅');
-            }
-        });
-    });
-};
+
 
 
 
@@ -291,6 +293,7 @@ module.exports = {
     createTfQuestionsTable,
     createManualGradedQuestionsTable,
     createModuleRatingsTable,
+    createQuizattemptTable,
     createStudentAnswerTable,
-    createQuizattemptTable
+    createManualAnswerTable
 };
