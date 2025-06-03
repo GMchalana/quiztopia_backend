@@ -195,7 +195,7 @@ const createQuizattemptTable = () => {
         userId INT NOT NULL,
         moduleId INT NOT NULL,
         userAttemptNumber INT NOT NULL,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (userId) REFERENCES users(id),
         FOREIGN KEY (moduleId) REFERENCES module(id)
         )
@@ -221,7 +221,7 @@ const createStudentAnswerTable = () => {
         questionId INT NOT NULL,
         attemptId INT NOT NULL,
         selectedAnswerIndex INT NOT NULL, 
-        submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        submittedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (userId) REFERENCES users(id),
         FOREIGN KEY (moduleId) REFERENCES module(id),
         FOREIGN KEY (questionId) REFERENCES mcquestions(id),
@@ -258,7 +258,7 @@ const createManualAnswerTable = () => {
         attemptId INT NOT NULL,
         answer TEXT DEFAULT NULL, 
         trueOrFalse BOOLEAN DEFAULT NULL, 
-        submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        submittedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (userId) REFERENCES users(id),
         FOREIGN KEY (moduleId) REFERENCES module(id),
         FOREIGN KEY (questionId) REFERENCES manualgradedquestions(id),
