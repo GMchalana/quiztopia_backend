@@ -39,6 +39,11 @@ app.use('/api/modules', modulesRoutes);
 app.use('/api/answers', stAnswersRoutes);
 app.use('/api/review', reviewIns);
 
+app.get('/test', (req, res) => {
+  res.send('Test route is working!');
+  console.log('test route is working');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
