@@ -1,39 +1,34 @@
-require('dotenv').config();
 const express = require('express');
-const app = express();
-const heathRoutes = require('./routes/healthRoutes')
+const serverless = require('serverless-http');
 const cors = require('cors');
-const  db = require('./startup/database');
-const authRoutes = require('./routes/Auth');
-const modulesRoutes = require('./routes/Ins-modules');
-const stAnswersRoutes = require('./routes/StAnswers');
-const reviewIns = require('./routes/AnswerReview');
-
 const bodyParser = require('body-parser');
-// const users = require('./users');
+require('dotenv').config();
 
-app.use(express.json());
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlenc
+const healthRoutes = require('../routes/healthRoutes');
+const authRoutes = require('../routes/Auth');
+const modulesRoutes = require('../routes/Ins-modules');
+const stAnswersRoutes = require('../routes/StAnswers');
+const reviewIns = require('../routes/AnswerReview');
 
-// app.use('/api', users);
-app.use(cors({
-  origin:'*'
-})); // Enable CORS for all routes
+const app = express();
 
+app.use(cors({ origin: '*' }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// DB connection (optional - ensure MySQL works serverlessly)
+const db = require('../startup/database');
 db.getConnection((err, connection) => {
   if (err) {
-    console.error('Error connecting to the database in index.js :', err);
+    console.error('Error connecting to the database:', err);
     return;
   }
-  console.log('Connected to the MySQL database in server.js (admin).  ✅  ');
+  console.log('Connected to the MySQL database ✅');
   connection.release();
 });
 
-
-app.use("", heathRoutes);
-
+// Routes
+app.use("", healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/answers', stAnswersRoutes);
@@ -41,10 +36,6 @@ app.use('/api/review', reviewIns);
 
 app.get('/test', (req, res) => {
   res.send('Test route is working!');
-  console.log('test route is working');
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+module.exports = serverless(app);
